@@ -27,7 +27,7 @@ public class CustomerDaoImpl implements CustomerDao {
     // Find customer by ID
     @Override
     public Customer findById(String id) {
-        return customerRepository.findById(id).orElse(null);  // Find customer by ID
+        return customerRepository.findById(id).get();  // Find customer by ID
     }
 
     // Delete customer by ID

@@ -9,6 +9,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+			background-image: url('https://wallpapercave.com/wp/wp9829796.jpg');
             background-color: #f5f6fa;
             margin: 0;
             padding: 0;

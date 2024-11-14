@@ -14,6 +14,7 @@ public class Customer {
     private String address;
     private String mobile;
     private String license;
+    private String expiryDate;
     private boolean status;
 
     // Default constructor (needed for JPA)
@@ -30,7 +31,7 @@ public class Customer {
     }
 
     // Constructor with all fields except status
-    public Customer(String username, String email, String firstName, String lastName, String address, String mobile, String license) {
+    public Customer(String username, String email, String firstName, String lastName, String address, String mobile, String license, String expiryDate) {
     	super();
         this.username = username;
         this.email = email;
@@ -39,11 +40,13 @@ public class Customer {
         this.address = address;
         this.mobile = mobile;
         this.license = license;
+        this.expiryDate=expiryDate;
         this.status = true; // default to active
     }
 
     // Full constructor including status
-    public Customer(String username, String email, String firstName, String lastName, String address, String mobile, String license, boolean status) {
+    public Customer(String username, String email, String firstName, String lastName, String address, String mobile, String license,
+    		String expiryDate, boolean status) {
         super();
     	this.username = username;
         this.email = email;
@@ -52,6 +55,7 @@ public class Customer {
         this.address = address;
         this.mobile = mobile;
         this.license = license;
+        this.expiryDate=expiryDate;
         this.status = status;
     }
 
@@ -111,10 +115,18 @@ public class Customer {
     public void setLicense(String license) {
         this.license = license;
     }
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
+    }
 
     public boolean isStatus() {
         return status;
     }
+    
 
     public void setStatus(boolean status) {
         this.status = status;
@@ -130,6 +142,7 @@ public class Customer {
                 ", address='" + address + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", license='" + license + '\'' +
+                ",expiryDate='"+expiryDate +'\''+
                 ", status=" + status +
                 '}';
     }

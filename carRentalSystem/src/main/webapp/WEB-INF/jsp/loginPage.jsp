@@ -6,8 +6,12 @@
     <title>Login Page</title>
     <style>
         body {
-            background-color: #f4f4f9; /* Light background color */
+            background-image: url('https://www.hdwallpapers.in/download/red_lamborghini_aventador_autumn_road_car_4k_hd_cars-HD.jpg'); /* Add your image URL here */
+            background-size: cover; /* Ensure the image covers the whole screen */
+            background-position: center; /* Center the image */
+            background-repeat: no-repeat; /* Prevent image repetition */
             margin: 0;
+            font-family: Arial, sans-serif;
         }
 
         .container {
@@ -18,7 +22,7 @@
         }
 
         .login-box {
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.8); /* Add transparency to make text more readable */
             padding: 30px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);

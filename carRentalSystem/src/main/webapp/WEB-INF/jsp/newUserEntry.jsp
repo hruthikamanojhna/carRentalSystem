@@ -9,6 +9,7 @@
 <title>User Registration</title>
 <style>
     body {
+		background-image: url('https://www.hdwallpapers.in/download/red_lamborghini_aventador_autumn_road_car_4k_hd_cars-HD.jpg');
         background-color: #f4f4f9;
         font-family: Arial, sans-serif;
         display: flex;

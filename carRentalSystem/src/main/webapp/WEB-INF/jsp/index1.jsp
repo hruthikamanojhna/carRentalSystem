@@ -9,6 +9,7 @@
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background-image: url('https://wallpapercave.com/wp/wp9829796.jpg');
 }
 .navbar {
   overflow: hidden;
@@ -78,8 +79,8 @@ body {
 <button class="dropbtn">Customer
 </button>
 <div class="dropdown-content">
-<a href="/customerAdd">Customer Addition</a>
-<!--<a href="/customerUpdate">Customer Update</a>
+<!--<a href="/">Customer Addition</a>
+<a href="/customerUpdate">Customer Update</a>
 <a href="/customerDelete">Customer Deletion</a>-->
 <a href="/customerReport">Customer Reports</a>
 </div>
@@ -89,7 +90,6 @@ body {
 </button>
 <div class="dropdown-content">
 <a href="/variantAdd">Variant Addition</a>
-<a href="/">Variant Deletion</a>
 <a href="/variantReport">Variant Reports</a>
 </div>
 </div>
@@ -98,8 +98,8 @@ body {
 </button>
 <div class="dropdown-content">
 <a href="/carAdd">Car Addition</a>
-<a href="/">Car Update</a>
-<a href="/">Car Deletion</a>
+<!--<a href="/">Car Update</a>
+<a href="/">Car Deletion</a>-->
 <a href="/carReport">Car Report</a>
 </div>
 </div>

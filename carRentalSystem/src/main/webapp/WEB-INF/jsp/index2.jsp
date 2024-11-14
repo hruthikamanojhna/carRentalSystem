@@ -9,6 +9,7 @@
 <style>
 body {
   font-family: Arial, Helvetica, sans-serif;
+  background-image: url('https://wallpapercave.com/wp/wp9829796.jpg');
 }
 .navbar {
   overflow: hidden;

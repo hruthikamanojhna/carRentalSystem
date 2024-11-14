@@ -1,81 +1,122 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="ISO-8859-1">
-    <title>Customer Entry Page</title>
+    <meta charset="UTF-8">
+    <title>Customer Entry</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+			background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            text-decoration: underline;
+        }
+
+        label {
+            font-size: 14px;
+            color: #555;
+            display: block;
+            margin-top: 10px;
+            text-align: left;
+        }
+
+        input[type="text"], input[type="email"], input[type="date"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 48%;
+            padding: 10px;
+            margin-top: 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+        }
+
+        button[type="submit"] {
+            background-color: #007BFF;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        button[type="reset"] {
+            background-color: #f44336;
+        }
+
+        button[type="reset"]:hover {
+            background-color: #d32f2f;
+        }
+    </style>
 </head>
 <body>
-    <div align="center">
-        <h1><u>Customer Entry Page</u></h1>
+<div class="container">
+    <h1>Customer Entry Page</h1>
+    <form:form action="/customerAdd" method="post" modelAttribute="customerRecord">
+        <form:hidden path="username"/>
+		<form:hidden path="email"/>
+		<form:hidden path="status"/>
+		
+		<label for="username">Enter User Name:</label>
+		        <form:input path="username" id="username" required="true"/>
 
-        <!-- Form for customer entry -->
-        <h2>
-            <form:form action="/customerAdd" method="post" modelAttribute="customerRecord">
+        <label for="email">Enter Email:</label>
+        <form:input path="email" id="email" required="true"/>
 
-                <!-- Hidden fields for user name and email -->
-                <form:hidden path="username" />
-                <form:hidden path="email" />
-				<form:hidden path="status"/>
+        <label for="firstName">Enter First Name:</label>
+        <form:input path="firstName" id="firstName" required="true"/>
 
-                <!-- Form fields for user details -->
-                <div>
-                    User Name: 
-                    <form:input path="username" disabled="true"/> 
-                </div>
-                <br/>
-                
-                <div>
-                    Email: 
-                    <form:input path="email" disabled="true"/>
-                </div>
-                <br/>
+        <label for="lastName">Enter Last Name:</label>
+        <form:input path="lastName" id="lastName" required="true"/>
 
-                <div>
-                    Enter First Name: 
-                    <form:input path="firstName"/>
-                </div>
-                <br/>
+        <label for="address">Enter Address:</label>
+        <form:input path="address" id="address" required="true"/>
 
-                <div>
-                    Enter Last Name: 
-                    <form:input path="lastName"/>
-                </div>
-                <br/>
+        <label for="mobile">Enter Mobile Number:</label>
+        <form:input path="mobile" id="mobile" required="true"/>
 
-                <div>
-                    Enter Address:
-                    <form:input path="address"/>
-                </div>
-                <br/>
+        <label for="license">Enter License Number:</label>
+        <form:input path="license" id="license" required="true"/>
 
-                <div>
-                    Enter Mobile Number: 
-                    <form:input path="mobile"/>
-                </div>
-                <br/>
+        <label for="expiryDate">Enter License Expiry Date:</label>
+        <form:input path="expiryDate" id="expiryDate" type="date" required="true"/>
 
-                <div>
-                    Enter License Number:
-                    <form:input path="license"/>
-                </div>
-                <br/>
-
-                <div>
-                    Enter License Expiry Date:
-                    <form:input path="expiryDate" type="date" placeholder="dd-mm-yyyy" />
-                </div>
-                <br/>
-
-                <div>
-                    <input type="submit" value="Submit"/>
-                </div>
-
-            </form:form>
-        </h2>
-    </div>
+        <div style="display: flex; justify-content: space-between;">
+            <button type="submit">Submit</button>
+            <button type="reset">Reset</button>
+        </div>
+    </form:form>
+</div>
 </body>
 </html>
