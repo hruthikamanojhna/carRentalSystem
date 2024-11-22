@@ -4,11 +4,11 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Car Report</title>
+    <title>Car Report - Admin</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-			background-image: url('https://wallpapercave.com/wp/wp9829792.jpg');
+            background-image: url('https://wallpapercave.com/wp/wp9829792.jpg');
             background-color: #f4f4f9;
             margin: 0;
             display: flex;
@@ -36,12 +36,6 @@
             font-weight: bold;
         }
 
-        h1 {
-            color: #333;
-            font-size: 24px;
-            margin-top: 20px;
-        }
-
         table {
             width: 90%;
             border-collapse: collapse;
@@ -59,65 +53,24 @@
         th {
             background-color: #007BFF;
             color: white;
-            font-weight: bold;
-        }
-
-        td {
-            color: #333;
-        }
-
-        .variant-table {
-            width: 100%;
-            background-color: #f9f9f9;
-            border-radius: 5px;
-            margin-top: 10px;
         }
 
         .variant-table th, .variant-table td {
             padding: 8px;
-            border: none;
-        }
-
-        a {
-            color: #007BFF;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        a:hover {
-            color: #0056b3;
-        }
-
-        h3 {
-            margin-top: 20px;
-            font-size: 18px;
-        }
-
-        button {
-            background-color: #007BFF;
-            color: white;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1em;
-        }
-
-        button:hover {
-            background-color: #0056b3;
+            text-align: left;
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Rent & Drive</h1>
+        <h1>Admin - Car Report</h1>
         <nav>
             <a href="/index">Home</a>
         </nav>
     </header>
 
     <h1>Car Report</h1>
-  
+
     <table>
         <tr>
             <th>Car Number</th>
@@ -125,8 +78,8 @@
             <th>Color</th>
             <th>Manufacturer</th>
             <th>Year Of Mfg</th>
-            <th>Rent Rate</th>
-            <th>Variant Detail</th>
+            <th>Rent Rate (₹/hour)</th>
+            <th>Variant Details</th>
             <th>Availability</th>
             <th>Actions</th>
         </tr>

@@ -98,8 +98,6 @@ body {
 </button>
 <div class="dropdown-content">
 <a href="/carAdd">Car Addition</a>
-<!--<a href="/">Car Update</a>
-<a href="/">Car Deletion</a>-->
 <a href="/carReport">Car Report</a>
 </div>
 </div>
@@ -107,10 +105,10 @@ body {
 <button class="dropbtn">Booking
 </button>
 <div class="dropdown-content">
-<a href="/">New Booking</a>
-<a href="/">Booking Update</a>
-<a href="/">Cancellation</a>
-<a href="/">Booking Report</a>
+	<!--<a href="/newBooking">New Booking</a>-->
+	<a href="/bookingUpdate">Booking Update</a>
+	<a href="/cancellation">Cancellation</a>
+	<a href="/bookingReport">Booking Report</a>
 </div>
 </div>
 <a href="/logout">Logout</a>

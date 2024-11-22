@@ -1,13 +1,12 @@
 package com.infosys.carRentalSystem.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.infosys.carRentalSystem.bean.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 
-@Service
 @Repository
 public class CarDaoImpl implements CarDao {
     @Autowired
@@ -20,7 +19,8 @@ public class CarDaoImpl implements CarDao {
 
     @Override
     public Car findById(String id) {
-        return repository.findById(id).get();
+        // Handle the Optional in case the car is not found
+        return repository.findById(id).orElse(null);  // Or throw a custom exception if preferred
     }
 
     @Override
@@ -31,5 +31,11 @@ public class CarDaoImpl implements CarDao {
     @Override
     public void deleteCarById(String id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<Car> getAvailableCars() {
+        // Assuming there is a method in CarRepository to find available cars
+        return repository.getAvailableCars();
     }
 }

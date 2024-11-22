@@ -85,32 +85,13 @@ body {
 <a href="/singleCustomerReport">Customer Reports</a>
 </div>
 </div>
-<!-- <div class="dropdown">
-<button class="dropbtn">Variant
-</button>
-<div class="dropdown-content">
-<a href="/">Variant Addition</a>
-<a href="/">Variant Deletion</a>
-<a href="/">Variant Reports</a>
-</div>
-</div> -->
-<div class="dropdown">
-<button class="dropbtn">Car
-</button>
-<div class="dropdown-content">
-<!-- <a href="/">Car Addition</a>
-<a href="/">Car Update</a>
-<a href="/">Car Deletion</a> -->
-<a href="/carReport">Car Report</a>
-</div>
-</div>
 <div class="dropdown">
 <button class="dropbtn">Booking
 </button>
 <div class="dropdown-content">
-<a href="/">New Booking</a>
-<a href="/">Booking Update</a>
-<a href="/">Cancellation</a>
+	<a href="/newBooking">New Booking</a>
+	<a href="/bookingUpdate">Booking Update</a>
+	<a href="/cancellation">Cancellation</a>
 <!-- <a href="/">Booking Report</a> -->
 </div>
 </div>

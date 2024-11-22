@@ -18,4 +18,6 @@ public interface CustomerDao {
 
     // Delete customer by ID
     public void deleteCustomerById(String id);
+    public Boolean getCustomerStatusByUsername(String username);
+    public String getLicenceExpiryDate(String username);
 }

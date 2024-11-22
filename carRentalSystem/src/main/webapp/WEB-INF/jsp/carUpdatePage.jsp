@@ -9,7 +9,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-			background-image: url('https://wallpapercave.com/wp/wp9829796.jpg');
+            background-image: url('https://wallpapercave.com/wp/wp9829796.jpg');
             background-color: #f5f6fa;
             margin: 0;
             padding: 0;
@@ -61,7 +61,7 @@
             color: #2f3640;
         }
 
-        input {
+        input, select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -111,7 +111,6 @@
     <h2>Update Car</h2>
 
     <form:form action="/carUpdate" method="post" modelAttribute="carRecord">
-        <form:hidden path="available" />
         <form:hidden path="carNumber" />
         <form:hidden path="carName" />
         <form:hidden path="carColor" />
@@ -123,22 +122,28 @@
         <form:input path="carNumber" id="carNumber" placeholder="Registration number" disabled="true" />
         
         <label for="carName">Car Name:</label>
-        <form:input path="carName" id="carName" placeholder="Car name" disabled="true"/>
+        <form:input path="carName" id="carName" placeholder="Car name" disabled="true" />
 
         <label for="carColor">Car Color:</label>
-        <form:input path="carColor" id="carColor" placeholder="Car color" disabled="true"/>
+        <form:input path="carColor" id="carColor" placeholder="Car color" disabled="true" />
 
         <label for="manufacturer">Car Manufacturer Name:</label>
-        <form:input path="manufacturer" id="manufacturer" placeholder="Manufacturer name" disabled="true"/>
+        <form:input path="manufacturer" id="manufacturer" placeholder="Manufacturer name" disabled="true" />
 
         <label for="yearOfMfg">Year of Manufacturing:</label>
-        <form:input path="yearOfMfg" id="yearOfMfg" placeholder="Year of manufacturing" disabled="true"/>
+        <form:input path="yearOfMfg" id="yearOfMfg" placeholder="Year of manufacturing" disabled="true" />
 
         <label for="rentRate">Enter New Rent Rate per Hour:</label>
         <form:input path="rentRate" id="rentRate" placeholder="Rent rate per hour" />
 
         <label for="variantId">Variant Id:</label>
-        <form:input path="variantId" id="variantId" placeholder="Variant Id" disabled="true"/>
+        <form:input path="variantId" id="variantId" placeholder="Variant Id" disabled="true" />
+
+        <label for="availability">Car Availability:</label>
+        <form:select path="available" id="available">
+            <option value="true" ${carRecord.available ? 'selected' : ''}>Available</option>
+            <option value="false" ${!carRecord.available ? 'selected' : ''}>Unavailable</option>
+        </form:select>
 
         <div style="text-align: center;">
             <button type="submit">Submit</button>

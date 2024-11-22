@@ -1,133 +1,136 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Report</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
 			background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background: linear-gradient(145deg, #f0f0f0, #dcdcdc);
+            color: #333;
             margin: 0;
+            padding: 0;
+            height: 100vh;
         }
-
-        .container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            width: 100%;
+        
+        h1 {
+            color: #2c3e50;
+            text-decoration: underline;
+            margin-top: 40px;
             text-align: center;
         }
 
-        h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
-            text-decoration: underline;
-        }
-
-        .error-message {
-            color: red;
-            font-size: 18px;
-            margin-bottom: 20px;
+        .table-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            padding: 20px;
         }
 
         table {
             width: 100%;
+            max-width: 1200px;
             border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        table, th, td {
-            border: 1px solid #ddd;
+            background-color: #fff;
+            box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
         }
 
         th, td {
-            padding: 10px;
-            text-align: left;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
         }
 
-        .button-container {
-            margin-top: 20px;
-        }
-
-        .button-container a {
-            text-decoration: none;
-            background-color: #007BFF;
+        th {
+            background-color: #007bff;
             color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
+            font-weight: bold;
         }
 
-        .button-container a:hover {
-            background-color: #0056b3;
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
+
+        tr:hover {
+            background-color: #e9ecef;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Styling */
+        @media (max-width: 768px) {
+            table {
+                width: 90%;
+                margin-bottom: 20px;
+            }
+
+            th, td {
+                font-size: 14px;
+                padding: 12px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+
+        /* Adding space between table and other elements */
+        h2 {
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Customer Details</h1>
-
-        <!-- Show error message if no customer data found -->
-        <c:if test="${not empty errorMessage}">
-            <p class="error-message">${errorMessage}</p>
-        </c:if>
-
-        <!-- Show customer details if available -->
-        <c:if test="${not empty customer}">
+    <div>
+        <h1><u>Customer Report</u></h1>
+        <div class="table-container">
             <table>
-                <tr>
-                    <th>Username</th>
-                    <td>${customer.username}</td>
-                </tr>
-                <tr>
-                    <th>Email</th>
-                    <td>${customer.email}</td>
-                </tr>
-                <tr>
-                    <th>First Name</th>
-                    <td>${customer.firstName}</td>
-                </tr>
-                <tr>
-                    <th>Last Name</th>
-                    <td>${customer.lastName}</td>
-                </tr>
-                <tr>
-                    <th>Address</th>
-                    <td>${customer.address}</td>
-                </tr>
-                <tr>
-                    <th>Mobile</th>
-                    <td>${customer.mobile}</td>
-                </tr>
-                <tr>
-                    <th>License Number</th>
-                    <td>${customer.license}</td>
-                </tr>
-                <tr>
-                    <th>License Expiry Date</th>
-                    <td>${customer.expiryDate}</td>
-                </tr>
-				<tr>
-					<th>Status</th>
-					<td>${customer.status}</d>
-				</tr>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>License</th>
+                        <th>Expiry Date</th>
+                        <th>Mobile</th>
+                        <th>Status</th>
+                        <th>Update</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>${customer.username}</td>
+                        <td>${customer.firstName}</td>
+                        <td>${customer.lastName}</td>
+                        <td>${customer.address}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.license}</td>
+                        <td>${customer.expiryDate}</td>
+                        <td>${customer.mobile}</td>
+                        <td>${customer.status}</td>
+                        <td><a href="customerUpdate/${customer.username}">Update</a></td>
+                    </tr>
+                </tbody>
             </table>
-
-            <!-- Button to update customer details -->
-            <div class="button-container">
-                <a href="/customerUpdate/${customer.username}">Update Information</a>
-            </div>
-        </c:if>
+        </div>
     </div>
 </body>
 </html>

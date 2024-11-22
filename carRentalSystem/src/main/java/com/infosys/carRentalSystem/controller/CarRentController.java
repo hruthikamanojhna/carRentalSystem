@@ -1,13 +1,23 @@
 package com.infosys.carRentalSystem.controller;
 
 import com.infosys.carRentalSystem.bean.Car;
+import com.infosys.carRentalSystem.bean.CarBooking;
+import com.infosys.carRentalSystem.bean.CarUser;
 import com.infosys.carRentalSystem.bean.Customer;
 import com.infosys.carRentalSystem.bean.CarVariant;
+import com.infosys.carRentalSystem.dao.CarBookingDao;
 import com.infosys.carRentalSystem.dao.CarDao;
 import com.infosys.carRentalSystem.dao.CarUserRepository;
 import com.infosys.carRentalSystem.dao.CarVariantDao;
 import com.infosys.carRentalSystem.dao.CustomerDao;
+import com.infosys.carRentalSystem.exception.CustomerLicenceException;
+import com.infosys.carRentalSystem.exception.CustomerStatusException;
 import com.infosys.carRentalSystem.service.CarUserService;
+import com.infosys.carRentalSystem.service.CustomerService;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +43,12 @@ public class CarRentController {
 
     @Autowired
     private CarUserService carUserService;
+    
+    @Autowired
+    private CustomerService custService;
+    
+    @Autowired
+    private CarBookingDao carBookingDao;
 
     @GetMapping("/variantAdd")
     public ModelAndView showVariantEntryPage() {
@@ -102,6 +118,44 @@ public class CarRentController {
 
         return mv;
     }
+    
+    @GetMapping("/customerCarReport")
+    public ModelAndView showCustomerCarReportPage() {
+        // Get the username of the logged-in customer
+        String username = carUserService.getUserName();
+        String role=carUserService.getRole();
+        if(role.equalsIgnoreCase("Customer")) {
+        // Check customer status
+        boolean status = customerDao.getCustomerStatusByUsername(username);
+        if (!status) {
+            throw new CustomerStatusException();
+        }
+
+        // Check license validity
+        String licenceExpiryDate = customerDao.getLicenceExpiryDate(username);
+        if (!custService.validateCustomerLicenceDate(licenceExpiryDate)) {
+            throw new CustomerLicenceException();
+        }
+        }
+
+        // Fetch available cars and car variants
+        List<Car> carList = carDao.getAvailableCars();
+        List<CarVariant> variantList = carVariantDao.findAll();
+        
+        // Create a mapping of variantId to CarVariant
+        Map<String, CarVariant> variantMap = new HashMap<>();
+        for (CarVariant cv : variantList) {
+            variantMap.put(cv.getVariantId(), cv);
+        }
+
+        // Prepare the ModelAndView object
+        ModelAndView mv = new ModelAndView("carReportPageCustomer");
+        mv.addObject("carList", carList);
+        mv.addObject("variantMap", variantMap);
+
+        return mv;
+    }
+
 
     @GetMapping("/carDelete/{id}")
     public ModelAndView deleteCar(@PathVariable String id) {
@@ -116,6 +170,15 @@ public class CarRentController {
         mv.addObject("carRecord", car);
         return mv;
     }
+    
+    @PostMapping("/carUpdate")
+    public ModelAndView updateCarRecord(@ModelAttribute("carRecord") Car car) {
+        // Update the car in the database
+        carDao.save(car);
+        // Redirect to the car report page
+        return new ModelAndView("redirect:/carReport");
+    }
+
     @GetMapping("/customerAdd")
     public ModelAndView showCustomerEntryPage() {
         String username = carUserService.getUserName();  // Get the username of the logged-in user
@@ -182,4 +245,103 @@ public class CarRentController {
     	repository.deleteById(id);
     	return new ModelAndView("redirect:/customerReport");
     }
+    
+    @ExceptionHandler(CustomerStatusException.class)
+    public ModelAndView handleCustomerStatusException(CustomerStatusException exception) {
+        // Custom error message
+        String message = "Sorry Dear Customer, you need to complete your last booking and payment procedures.";
+
+        // Prepare the ModelAndView object
+        ModelAndView mv = new ModelAndView("carBookingErrorPage");
+        mv.addObject("errorMessage", message);
+
+        return mv;
+    }
+
+    @ExceptionHandler(CustomerLicenceException.class)
+    public ModelAndView handleCustomerLicenceException(CustomerLicenceException exception) {
+        // Custom error message
+        String message = "Sorry Dear Customer, you need to renew your licence.";
+
+        // Prepare the ModelAndView object
+        ModelAndView mv = new ModelAndView("carBookingErrorPage");
+        mv.addObject("errorMessage", message);
+
+        return mv;
+    }
+
+    @GetMapping("/newBooking")
+    public ModelAndView showNewBookingPage() {
+        try {
+            // Get the username of the logged-in user
+            String username = carUserService.getUserName();
+
+            // Check customer status
+            boolean status = customerDao.getCustomerStatusByUsername(username);
+            if (!status) {
+                throw new CustomerStatusException();
+            }
+
+            // Check license validity
+            String licenceExpiryDate = customerDao.getLicenceExpiryDate(username);
+            if (!custService.validateCustomerLicenceDate(licenceExpiryDate)) {
+                throw new CustomerLicenceException();
+            }
+
+            // Fetch available cars and car variants
+            List<Car> carList = carDao.getAvailableCars();
+            List<CarVariant> variantList = carVariantDao.findAll();
+
+            // Create a mapping of variantId to CarVariant
+            Map<String, CarVariant> variantMap = new HashMap<>();
+            for (CarVariant cv : variantList) {
+                variantMap.put(cv.getVariantId(), cv);
+            }
+
+            // Initialize a new CarBooking object
+            CarBooking carBooking = new CarBooking();
+            carBooking.setUsername(username);
+
+            // Prepare and return ModelAndView
+            ModelAndView mv = new ModelAndView("newBookingPage");
+            mv.addObject("carList", carList);
+            mv.addObject("variantMap", variantMap);
+            mv.addObject("carBooking", carBooking);
+            return mv;
+
+        } catch (CustomerStatusException e) {
+            // Redirect to the error page for customer status issues
+            ModelAndView mv = new ModelAndView("carBookingErrorPage");
+            mv.addObject("errorMessage", "Your account status is inactive. Please contact support.");
+            return mv;
+        } catch (CustomerLicenceException e) {
+            // Redirect to the error page for license validity issues
+            ModelAndView mv = new ModelAndView("carBookingErrorPage");
+            mv.addObject("errorMessage", "Your driving license is expired or invalid. Please update your details.");
+            return mv;
+        }
+    }
+
+    @PostMapping("/newBooking")
+    public ModelAndView saveNewBooking(@ModelAttribute("carBooking") CarBooking carBooking) {
+        try {
+            // Set default status as false (Pending)
+            carBooking.setStatus(false);
+
+            // Save the booking details
+            carBookingDao.save(carBooking);
+
+            // Redirect to the booking report page upon successful save
+            return new ModelAndView("redirect:/bookingReport");
+
+        } catch (Exception e) {
+            // Redirect to the error page in case of unexpected issues
+            ModelAndView mv = new ModelAndView("carBookingErrorPage");
+            mv.addObject("errorMessage", "Failed to save the booking. Please try again.");
+            return mv;
+        }
+    }
+    
+    
+
 }

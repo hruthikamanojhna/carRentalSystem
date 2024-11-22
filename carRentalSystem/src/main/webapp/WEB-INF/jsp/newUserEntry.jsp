@@ -87,7 +87,11 @@
     function passwordCheck() {
         var pass1 = document.getElementById("pass1").value;
         var pass2 = document.getElementById("pass2").value;
-
+		
+		if(pass1.length<5 | pass1.length>10){
+			alert("Passowrd must be between 5 to 10 character long");
+			return;
+		}
         if (pass1 === pass2) {
             if (pass1.length >= 5 && pass1.length <= 10) {
                 document.getElementById("registrationForm").submit();

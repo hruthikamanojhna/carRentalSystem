@@ -4,14 +4,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Car Report</title>
+    <title>Car Report - Customer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-			background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
+            background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
             background-color: #f5f6fa;
             margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -26,25 +25,6 @@
             text-align: center;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 24px;
-        }
-
-        nav a {
-            color: #ffffff;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 0 10px;
-        }
-
-        h1 {
-            color: #333;
-            font-size: 26px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
         table {
             width: 90%;
             max-width: 1200px;
@@ -52,7 +32,6 @@
             border-collapse: collapse;
             background-color: #fff;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            text-align: left;
         }
 
         th, td {
@@ -63,52 +42,17 @@
         th {
             background-color: #3498db;
             color: #fff;
-            font-weight: bold;
             text-align: left;
         }
 
         td {
             color: #333;
         }
-
-        .variant-table {
-            width: 100%;
-            margin-top: 10px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-        }
-
-        .variant-table th, .variant-table td {
-            padding: 6px;
-            border: none;
-            text-align: left;
-        }
-
-        a {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        a:hover {
-            color: #2980b9;
-        }
-
-        h3 {
-            margin-top: 20px;
-            font-size: 18px;
-            text-align: center;
-        }
-
-        h3 a {
-            color: #3498db;
-            text-decoration: none;
-        }
     </style>
 </head>
 <body>
     <header>
-        <h1>Rent & Drive</h1>
+        <h1>Customer - Car Report</h1>
         <nav>
             <a href="${pageContext.request.contextPath}/index">Home</a>
         </nav>
@@ -123,8 +67,8 @@
             <th>Color</th>
             <th>Manufacturer</th>
             <th>Year Of Mfg</th>
-            <th>Rent Rate</th>
-            <th>Variant Detail</th>
+            <th>Rent Rate (₹/hour)</th>
+            <th>Variant Details</th>
             <th>Availability</th>
         </tr>
 

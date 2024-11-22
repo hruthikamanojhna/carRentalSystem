@@ -15,7 +15,7 @@ public class Customer {
     private String mobile;
     private String license;
     private String expiryDate;
-    private boolean status;
+    private boolean status = true;
 
     // Default constructor (needed for JPA)
     public Customer() {
@@ -142,8 +142,9 @@ public class Customer {
                 ", address='" + address + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", license='" + license + '\'' +
-                ",expiryDate='"+expiryDate +'\''+
+                ", expiryDate='" + expiryDate + '\'' +
                 ", status=" + status +
                 '}';
     }
-}
+
+    }

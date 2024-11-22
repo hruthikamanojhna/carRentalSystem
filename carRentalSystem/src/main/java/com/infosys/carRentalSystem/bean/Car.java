@@ -18,7 +18,7 @@ public class Car {
 
     private String variantId;
 
-    private Boolean available;
+    private Boolean available = true;
 
     public Car() {
         super();
@@ -33,7 +33,7 @@ public class Car {
         this.yearOfMfg = yearOfMfg;
         this.rentRate = rentRate;
         this.variantId = variantId;
-        this.available = available;
+        this.available = available ;
     }
 
     public String getCarNumber() {
