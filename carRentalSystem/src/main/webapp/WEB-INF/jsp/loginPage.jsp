@@ -3,15 +3,16 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Login Page</title>
+    <title>Login | RoadTripRental</title>
     <style>
         body {
-            background-image: url('https://www.hdwallpapers.in/download/red_lamborghini_aventador_autumn_road_car_4k_hd_cars-HD.jpg'); /* Add your image URL here */
-            background-size: cover; /* Ensure the image covers the whole screen */
-            background-position: center; /* Center the image */
-            background-repeat: no-repeat; /* Prevent image repetition */
+            background-image: url('https://www.hdwallpapers.in/download/red_lamborghini_aventador_autumn_road_car_4k_hd_cars-HD.jpg'); 
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
             margin: 0;
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', Arial, sans-serif;
+            color: #333;
         }
 
         .container {
@@ -22,40 +23,49 @@
         }
 
         .login-box {
-            background-color: rgba(255, 255, 255, 0.8); /* Add transparency to make text more readable */
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            background-color: rgba(255, 255, 255, 0.9); 
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3); 
             text-align: center;
-            width: 350px;
+            width: 380px;
+            backdrop-filter: blur(10px); 
         }
 
-        h3 {
-            margin-bottom: 20px;
-            color: #333;
-            font-size: 1.5em;
+        .login-box h1 {
+            font-size: 2em;
+            color: #007BFF; 
+            margin-bottom: 15px;
+        }
+
+        .login-box p.tagline {
+            font-size: 1.1em;
+            color: #555;
+            margin-bottom: 25px;
+            font-style: italic;
         }
 
         input[type="text"],
         input[type="password"] {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             margin: 10px 0;
             border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
+            border-radius: 8px;
             font-size: 1em;
+            box-sizing: border-box;
         }
 
         input[type="submit"] {
             background-color: #007BFF;
             color: white;
-            padding: 10px 15px;
+            padding: 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 1.1em;
             width: 100%;
+            transition: background-color 0.3s ease;
         }
 
         input[type="submit"]:hover {
@@ -63,22 +73,31 @@
         }
 
         h2 {
-            margin-top: 20px;
             font-size: 1em;
+            margin-top: 20px;
         }
 
-        h2 a, .extra-link a {
-            text-decoration: none;
+        h2 a {
             color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
         }
 
-        h2 a:hover, .extra-link a:hover {
+        h2 a:hover {
+            text-decoration: underline;
             color: #0056b3;
         }
 
         .extra-link {
-            margin-top: 10px;
             font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .logo {
+            font-family: 'Poppins', Arial, sans-serif;
+            color: #333;
+            font-weight: bold;
+            font-size: 1.8em;
         }
     </style>
 </head>
@@ -86,22 +105,21 @@
 
     <div class="container">
         <div class="login-box">
+            <h1 class="logo">RoadTripRental</h1>
+            <p class="tagline">"Your journey, your road, your car"</p>
             <h3>Login</h3>
             <form action="/login" method="post">
-                <label for="username">Enter User Id:</label>
-                <input type="text" id="username" name="username" placeholder="User ID" required />
+                <label for="username">User ID:</label>
+                <input type="text" id="username" name="username" placeholder="Enter User ID" required />
                 
-                <label for="password">Enter Password:</label>
-                <input type="password" id="password" name="password" placeholder="Password" required />
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" placeholder="Enter Password" required />
 
-                <input type="submit" value="Submit" />
+                <input type="submit" value="Login" />
             </form>
             <h2>
-                <a href="/register">Register for new User</a>
+                <a href="/register">Register as a New User</a>
             </h2>
-            <div class="extra-link">
-                <a href="/forgotPassword">Forgot Password?</a>
-            </div>
         </div>
     </div>
 

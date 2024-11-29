@@ -5,75 +5,47 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Customer {
-
     @Id
     private String username;
-    private String email;
     private String firstName;
     private String lastName;
     private String address;
-    private String mobile;
+    private String email;
+    private Long mobile;
     private String license;
     private String expiryDate;
-    private boolean status = true;
+    private Boolean status;
 
-    // Default constructor (needed for JPA)
     public Customer() {
-    	super();
-    }
-
-    // Constructor with username and email
-    public Customer(String username, String email) {
-    	super();
-        this.username = username;
-        this.email = email;
-        this.status = true; // default to active
-    }
-
-    // Constructor with all fields except status
-    public Customer(String username, String email, String firstName, String lastName, String address, String mobile, String license, String expiryDate) {
-    	super();
-        this.username = username;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.mobile = mobile;
-        this.license = license;
-        this.expiryDate=expiryDate;
-        this.status = true; // default to active
-    }
-
-    // Full constructor including status
-    public Customer(String username, String email, String firstName, String lastName, String address, String mobile, String license,
-    		String expiryDate, boolean status) {
         super();
-    	this.username = username;
-        this.email = email;
+        this.status = Boolean.TRUE;
+    }
+
+    public Customer(String username, String firstName, String lastName, String address, String email, Long mobile, String license, String expiryDate, Boolean status) {
+        this.username = username;
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
+        this.email = email;
         this.mobile = mobile;
         this.license = license;
-        this.expiryDate=expiryDate;
+        this.expiryDate = expiryDate;
         this.status = status;
     }
 
-    // Getters and setters for each field
+    public Customer(String username, String email) {
+        super();
+        this.username = username;
+        this.email = email;
+        this.status = true;
+    }
+
     public String getUsername() {
         return username;
     }
 
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getFirstName() {
@@ -100,11 +72,19 @@ public class Customer {
         this.address = address;
     }
 
-    public String getMobile() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getMobile() {
         return mobile;
     }
 
-    public void setMobile(String mobile) {
+    public void setMobile(Long mobile) {
         this.mobile = mobile;
     }
 
@@ -115,6 +95,7 @@ public class Customer {
     public void setLicense(String license) {
         this.license = license;
     }
+
     public String getExpiryDate() {
         return expiryDate;
     }
@@ -123,12 +104,11 @@ public class Customer {
         this.expiryDate = expiryDate;
     }
 
-    public boolean isStatus() {
+    public Boolean getStatus() {
         return status;
     }
-    
 
-    public void setStatus(boolean status) {
+    public void setStatus(Boolean status) {
         this.status = status;
     }
 
@@ -136,15 +116,13 @@ public class Customer {
     public String toString() {
         return "Customer{" +
                 "username='" + username + '\'' +
-                ", email='" + email + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
-                ", mobile='" + mobile + '\'' +
+                ", email='" + email + '\'' +
+                ", mobile=" + mobile +
                 ", license='" + license + '\'' +
                 ", expiryDate='" + expiryDate + '\'' +
-                ", status=" + status +
                 '}';
     }
-
-    }
+}

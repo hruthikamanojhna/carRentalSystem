@@ -99,7 +99,7 @@
 <body>
 <div class="container">
     <header>
-        <h1>Rent & Drive</h1>
+        <h1>RoadTripRental</h1>
         <nav>
             <a href="/index">Home</a>
         </nav>
@@ -125,8 +125,8 @@
         <label for="yearOfMfg">Year of Manufacturing:</label>
         <form:input path="yearOfMfg" id="yearOfMfg" placeholder="Year of manufacturing" />
 
-        <label for="rentRate">Rent Rate per Hour:</label>
-        <form:input path="rentRate" id="rentRate" placeholder="Rent rate per hour" />
+        <label for="rentRate">Rent Rate per Day:</label>
+        <form:input path="rentRate" id="rentRate" placeholder="Rent rate per day" />
 
         <label for="variantId">Select Variant:</label>
         <form:select path="variantId" id="carVariantId">

@@ -126,12 +126,20 @@
                         </c:choose>
                     </td>
                     <td>
-                        <form action="${pageContext.request.contextPath}/newBooking" method="post">
-                            <input type="hidden" name="carNumber" value="${car.carNumber}" />
-                            <input type="hidden" name="variantId" value="${car.variantId}" />
-                            <input type="hidden" name="username" value="${carUserService.userName}" />
-                            <input type="submit" value="Book Now" class="btn-book" />
-                        </form>
+						<form action="${pageContext.request.contextPath}/carDetailsBooking" method="post">
+						    <input type="hidden" name="carNumber" value="${car.carNumber}" />
+						    <input type="hidden" name="variantId" value="${car.variantId}" />
+						    <input type="hidden" name="username" value="${carUserService.userName}" />
+						    <input type="hidden" name="carName" value="${car.carName}" />
+						    <input type="hidden" name="carColor" value="${car.carColor}" />
+						    <input type="hidden" name="manufacturer" value="${car.manufacturer}" />
+						    <input type="hidden" name="rentRate" value="${car.rentRate}" />
+						    <input type="hidden" name="variantName" value="${carVariant.variantName}" />
+						    <input type="hidden" name="variantSeats" value="${carVariant.numberOfSeat}" />
+						    <input type="hidden" name="fuel" value="${carVariant.fuel}" />
+						    <input type="submit" value="Book Now" class="btn-book" />
+						</form>
+
                     </td>
                 </tr>
             </c:forEach>

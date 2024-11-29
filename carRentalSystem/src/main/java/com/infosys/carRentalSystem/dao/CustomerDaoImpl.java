@@ -2,47 +2,45 @@ package com.infosys.carRentalSystem.dao;
 
 import com.infosys.carRentalSystem.bean.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public class CustomerDaoImpl implements CustomerDao {
-
+@Service
+public class CustomerDaoImpl implements CustomerDao{
     @Autowired
-    private CustomerRepository customerRepository;  // Injecting the repository
-
-    // Save customer
+    private CustomerRepository customerRepository;
     @Override
     public void save(Customer customer) {
-        customerRepository.save(customer);  // Save customer to the database
+        customerRepository.save(customer);
     }
 
-    // Find all customers
-    @Override
-    public List<Customer> findAll() {
-        return customerRepository.findAll();  // Retrieve all customers
-    }
-
-    // Find customer by ID
     @Override
     public Customer findById(String id) {
-        return customerRepository.findById(id).get();  // Find customer by ID
+        Optional<Customer> customer = customerRepository.findById(id);
+        return customer.orElse(null);
     }
 
-    // Delete customer by ID
+    @Override
+    public List<Customer> findAll() {
+        return customerRepository.findAll();
+    }
+
     @Override
     public void deleteCustomerById(String id) {
-        customerRepository.deleteById(id);  // Delete customer by ID
+        customerRepository.deleteById(id);
     }
-    
+
     @Override
     public Boolean getCustomerStatusByUsername(String username) {
-    	return customerRepository.getCustomerStatusByUsername(username);
+       Boolean status =  customerRepository.getCustomerStatusByUsername(username);
+       return status == null || status;
     }
-    
     @Override
     public String getLicenceExpiryDate(String username) {
-    	return customerRepository.getLicenceExpiryDate(username);
+        return customerRepository.getLicenceExpiryDate(username);
     }
+
+
 }

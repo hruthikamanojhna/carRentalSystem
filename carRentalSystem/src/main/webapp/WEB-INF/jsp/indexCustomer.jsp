@@ -89,10 +89,8 @@ body {
 <button class="dropbtn">Booking
 </button>
 <div class="dropdown-content">
-	<a href="/newBooking">New Booking</a>
-	<a href="/bookingUpdate">Booking Update</a>
-	<a href="/cancellation">Cancellation</a>
-<!-- <a href="/">Booking Report</a> -->
+	<a href="/customerCarReport">New Booking</a>
+	<a href="/bookingReport">Booking Report</a>
 </div>
 </div>
 <a href="/logout">Logout</a>

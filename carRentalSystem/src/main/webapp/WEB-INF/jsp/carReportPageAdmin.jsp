@@ -78,7 +78,7 @@
             <th>Color</th>
             <th>Manufacturer</th>
             <th>Year Of Mfg</th>
-            <th>Rent Rate (₹/hour)</th>
+            <th>Rent Rate (₹/day)</th>
             <th>Variant Details</th>
             <th>Availability</th>
             <th>Actions</th>
@@ -91,7 +91,7 @@
                 <td>${car.carColor}</td>
                 <td>${car.manufacturer}</td>
                 <td>${car.yearOfMfg}</td>
-                <td>₹${car.rentRate}/hour</td>
+                <td>₹${car.rentRate}/day</td>
                 <td>
                     <c:set var="carVariant" value="${variantMap[car.variantId]}" />
                     <c:if test="${carVariant != null}">

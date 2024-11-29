@@ -38,9 +38,9 @@ public class LoginController {
         String page = "loginPage"; // Default to loginPage if role is null or not recognized
 
         if ("Admin".equalsIgnoreCase(role)) {
-            page = "index1";
+            page = "indexAdmin";
         } else if ("Customer".equalsIgnoreCase(role)) {
-            page = "index2";
+            page = "indexCustomer";
         }
 
         return new ModelAndView(page);

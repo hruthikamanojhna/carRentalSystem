@@ -18,7 +18,7 @@ public class Car {
 
     private String variantId;
 
-    private Boolean available = true;
+    private Boolean available;
 
     public Car() {
         super();

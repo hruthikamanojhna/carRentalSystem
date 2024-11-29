@@ -99,6 +99,7 @@ body {
 <div class="dropdown-content">
 <a href="/carAdd">Car Addition</a>
 <a href="/carReport">Car Report</a>
+<!--<a href="/customerCarReport">Available Cars</a>-->
 </div>
 </div>
 <div class="dropdown">
@@ -106,8 +107,7 @@ body {
 </button>
 <div class="dropdown-content">
 	<!--<a href="/newBooking">New Booking</a>-->
-	<a href="/bookingUpdate">Booking Update</a>
-	<a href="/cancellation">Cancellation</a>
+	<a href="/bookingPayments">Booking Payment</a>
 	<a href="/bookingReport">Booking Report</a>
 </div>
 </div>

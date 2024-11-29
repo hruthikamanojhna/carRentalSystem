@@ -6,20 +6,26 @@ public class CarBooking {
 	@Id
 	private String bookingId;
 	private String username;
+	private String license;
+	private String carNumber;
 	private String variantId;
+	private String rentRate;
 	private String fromDate;
 	private String toDate;
 	private Double totalPayment;
 	private Double advancePayment;
 	private Double pendingPayment;
 	private String transactionId;
-	private Boolean status;
-	public CarBooking(String bookingId, String username, String variantId, String fromDate, String toDate,
-			Double totalPayment, Double advancePayment, Double pendingPayment,String transactionId, Boolean status) {
+	private String status;  // "P"-->pending , "C"--> cancelled, "R"-->Returned
+	public CarBooking(String bookingId, String username,String license, String carNumber, String variantId,String rentRate , String fromDate, String toDate,
+			Double totalPayment, Double advancePayment, Double pendingPayment,String transactionId, String status) {
 		super();
 		this.bookingId = bookingId;
 		this.username = username;
+		this.license = license;
+		this.carNumber=carNumber;
 		this.variantId = variantId;
+		this.rentRate=rentRate;
 		this.fromDate = fromDate;
 		this.toDate = toDate;
 		this.totalPayment = totalPayment;
@@ -28,10 +34,29 @@ public class CarBooking {
 		this.transactionId = transactionId;
 		this.status = status;
 	}
-	public CarBooking(String bookingId) {
+	public CarBooking(String bookingId, String username, String license, String carNumber, String variantId) {
 		super();
 		this.bookingId = bookingId;
-		this.status=false;
+		this.status= "P";
+		this.pendingPayment = 0.0;
+		this.transactionId="";
+		this.totalPayment=0.0;
+		this.username=username;
+		this.carNumber=carNumber;
+		this.variantId=variantId;
+		this.license = license;
+	}
+	public String getLicense() {
+		return license;
+	}
+	public void setLicense(String license) {
+		this.license = license;
+	}
+	public String getCarNumber() {
+		return carNumber;
+	}
+	public void setCarNumber(String carNumber) {
+		this.carNumber = carNumber;
 	}
 	public CarBooking() {
 		// TODO Auto-generated constructor stub
@@ -90,17 +115,25 @@ public class CarBooking {
 	public void setTransactionId(String transactionId) {
 		this.transactionId = transactionId;
 	}
-	public Boolean getStatus() {
+	public String getStatus() {
 		return status;
 	}
-	public void setStatus(Boolean status) {
-		this.status = status;
+	public void setStatus(String b) {
+		this.status = b;
 	}
 	@Override
 	public String toString() {
-		return "CarBooking [bookingId=" + bookingId + ", username=" + username + ", variantId=" + variantId
-				+ ", fromDate=" + fromDate + ", toDate=" + toDate + ", totalPayment=" + totalPayment
-				+ ", advancePayment=" + advancePayment + ", pendingPayment=" + pendingPayment + ", transactionId="
-				+ transactionId + ", status=" + status + "]";
+		return "CarBooking [bookingId=" + bookingId + ", username=" + username + ", license=" + license + ", carNumber="
+				+ carNumber + ", variantId=" + variantId + ", fromDate=" + fromDate + ", toDate=" + toDate
+				+ ", totalPayment=" + totalPayment + ", advancePayment=" + advancePayment + ", pendingPayment="
+				+ pendingPayment + ", transactionId=" + transactionId + ", status=" + status + "]";
 	}
+	public String getRentRate() {
+		// TODO Auto-generated method stub
+		return rentRate;
+	}
+	public void setRentRate() {
+		this.rentRate = rentRate;
+	}
+	
 }

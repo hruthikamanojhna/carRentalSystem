@@ -4,12 +4,15 @@ import com.infosys.carRentalSystem.bean.Car;
 import com.infosys.carRentalSystem.bean.CarBooking;
 import com.infosys.carRentalSystem.bean.CarUser;
 import com.infosys.carRentalSystem.bean.Customer;
+import com.infosys.carRentalSystem.bean.Transaction;
 import com.infosys.carRentalSystem.bean.CarVariant;
 import com.infosys.carRentalSystem.dao.CarBookingDao;
 import com.infosys.carRentalSystem.dao.CarDao;
 import com.infosys.carRentalSystem.dao.CarUserRepository;
 import com.infosys.carRentalSystem.dao.CarVariantDao;
 import com.infosys.carRentalSystem.dao.CustomerDao;
+import com.infosys.carRentalSystem.dao.TransactionDao;
+import com.infosys.carRentalSystem.dao.TransactionRepository;
 import com.infosys.carRentalSystem.exception.CustomerLicenceException;
 import com.infosys.carRentalSystem.exception.CustomerStatusException;
 import com.infosys.carRentalSystem.service.CarUserService;
@@ -23,9 +26,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 public class CarRentController {
@@ -49,6 +56,12 @@ public class CarRentController {
     
     @Autowired
     private CarBookingDao carBookingDao;
+    
+    @Autowired
+    TransactionDao transactionDao;
+    @Autowired
+    private TransactionRepository transactionRepository;
+
 
     @GetMapping("/variantAdd")
     public ModelAndView showVariantEntryPage() {
@@ -270,78 +283,144 @@ public class CarRentController {
         return mv;
     }
 
-    @GetMapping("/newBooking")
-    public ModelAndView showNewBookingPage() {
-        try {
-            // Get the username of the logged-in user
-            String username = carUserService.getUserName();
+    @GetMapping("/newBooking/{carNumber}")
+    public ModelAndView showNewBookingPage(@PathVariable String carNumber) {
+        CarBooking carBooking = new CarBooking();
+        carBooking.setBookingId(carBookingDao.generateBookingId());
+        carBooking.setCarNumber(carNumber);
+        Double rentRate = carDao.findById(carNumber).getRentRate();
+        carBooking.setUsername(carUserService.getUserName());
 
-            // Check customer status
-            boolean status = customerDao.getCustomerStatusByUsername(username);
-            if (!status) {
-                throw new CustomerStatusException();
-            }
+        ModelAndView mv = new ModelAndView("bookingPage");
+        mv.addObject("carBooking", carBooking);
+        mv.addObject("rentRate", rentRate);
+        return mv;
+    }
+    @PostMapping("/createBooking")
+    public ModelAndView createBookingAndRedirectToPaymentPage(@ModelAttribute("carBooking") CarBooking carBooking) {
+        System.out.println(carBooking.getBookingId());
+        System.out.println(carBooking.getCarNumber());
+        Double rentRate = carDao.findById(carBooking.getCarNumber()).getRentRate();
+        long days = calculateDaysBetween(carBooking.getFromDate(), carBooking.getToDate());
+        carBooking.setTotalPayment(rentRate * days);
+        carBooking.setStatus("P");
+        carBooking.setAdvancePayment(0.0);
+        carBooking.setPendingPayment(carBooking.getTotalPayment());
+        Customer customer = customerDao.findById(carUserService.getUserName());
+        carBooking.setLicense(customer.getLicense());
+        carBooking.setVariantId(carDao.findById(carBooking.getCarNumber()).getVariantId());
+        carBookingDao.save(carBooking);
+        return new ModelAndView("redirect:/makePayment/" + carBooking.getBookingId());
+    }
+    @GetMapping("/bookingReport")
+    public ModelAndView showBookingReport() {
+        String username = carUserService.getUserName();
+        String role = carUserService.getRole();
+        String page = role.equalsIgnoreCase("ADMIN")
+                ? "bookingReportAdmin" : "bookingReportCustomer";
+        ModelAndView mv = new ModelAndView(page);
 
-            // Check license validity
-            String licenceExpiryDate = customerDao.getLicenceExpiryDate(username);
-            if (!custService.validateCustomerLicenceDate(licenceExpiryDate)) {
-                throw new CustomerLicenceException();
-            }
-
-            // Fetch available cars and car variants
-            List<Car> carList = carDao.getAvailableCars();
-            List<CarVariant> variantList = carVariantDao.findAll();
-
-            // Create a mapping of variantId to CarVariant
-            Map<String, CarVariant> variantMap = new HashMap<>();
-            for (CarVariant cv : variantList) {
-                variantMap.put(cv.getVariantId(), cv);
-            }
-
-            // Initialize a new CarBooking object
-            CarBooking carBooking = new CarBooking();
-            carBooking.setUsername(username);
-
-            // Prepare and return ModelAndView
-            ModelAndView mv = new ModelAndView("newBookingPage");
-            mv.addObject("carList", carList);
-            mv.addObject("variantMap", variantMap);
-            mv.addObject("carBooking", carBooking);
-            return mv;
-
-        } catch (CustomerStatusException e) {
-            // Redirect to the error page for customer status issues
-            ModelAndView mv = new ModelAndView("carBookingErrorPage");
-            mv.addObject("errorMessage", "Your account status is inactive. Please contact support.");
-            return mv;
-        } catch (CustomerLicenceException e) {
-            // Redirect to the error page for license validity issues
-            ModelAndView mv = new ModelAndView("carBookingErrorPage");
-            mv.addObject("errorMessage", "Your driving license is expired or invalid. Please update your details.");
-            return mv;
+        if (role.equalsIgnoreCase("ADMIN")) {
+            List<CarBooking> allBookings = carBookingDao.findAll();
+            mv.addObject("bookings", allBookings);
+        } else {
+            List<CarBooking> userBookings = carBookingDao.findAllByUsername(username);
+            mv.addObject("bookings", userBookings);
         }
+        return mv;
+    }
+    @GetMapping("/bookingReport/{bookingId}")
+    public ModelAndView showBookingDetails(@PathVariable String bookingId) {
+        String role = carUserService.getRole();
+        CarBooking carBooking = carBookingDao.findById(bookingId);
+        String page = role.equalsIgnoreCase("ADMIN")
+                ? "bookingDetailAdmin" : "bookingDetailCustomer";
+        ModelAndView mv = new ModelAndView(page);
+        CarVariant variant = carVariantDao.findById(carBooking.getVariantId());
+        Car car = carDao.findById(carBooking.getCarNumber());
+        List<Transaction> transactions = transactionDao.findAllByBookingId(bookingId);
+        mv.addObject("booking", carBooking);
+        mv.addObject("variant", variant);
+        mv.addObject("car", car);
+        mv.addObject("transactions", transactions);
+        return mv;
     }
 
-    @PostMapping("/newBooking")
-    public ModelAndView saveNewBooking(@ModelAttribute("carBooking") CarBooking carBooking) {
-        try {
-            // Set default status as false (Pending)
-            carBooking.setStatus(false);
 
-            // Save the booking details
+    private long calculateDaysBetween(String fromDate, String toDate) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate start = LocalDate.parse(fromDate, formatter);
+        LocalDate end = LocalDate.parse(toDate, formatter);
+        return ChronoUnit.DAYS.between(start, end);
+    }
+    @GetMapping("/makePayment/{bookingId}")
+    public ModelAndView showPaymentPage(@PathVariable String bookingId) {
+        Transaction transaction = new Transaction();
+        CarBooking carBooking = carBookingDao.findById(bookingId);
+        Double totalPayment = carBooking.getTotalPayment();
+        Double pendingPayment = carBooking.getPendingPayment();
+
+        transaction.setTransactionId(transactionDao.generateTransactionId());
+        transaction.setBookingId(bookingId);
+
+        ModelAndView mv = new ModelAndView("paymentPage");
+        mv.addObject("transaction", transaction);
+        mv.addObject("totalPayment", totalPayment);
+        mv.addObject("pendingPayment", pendingPayment);
+        return mv;
+    }
+
+    @PostMapping("/makePayment")
+    public ModelAndView makePayment(@ModelAttribute("transaction") Transaction transaction) {
+        transaction.setApproved(null);
+        transactionRepository.save(transaction);
+        return new ModelAndView("redirect:/bookingReport/" + transaction.getBookingId());
+    }
+
+    @GetMapping("/updatePaymentStatus/{txnId}/{status}")
+    public ModelAndView updatePaymentStatus(@PathVariable String txnId, @PathVariable String status) {
+        Transaction transaction = transactionDao.findById(txnId);
+        transaction.setApproved(status.equalsIgnoreCase("approve"));
+        transactionRepository.save(transaction);
+
+        if(status.equalsIgnoreCase("approve")) {
+            CarBooking carBooking = carBookingDao.findById(transaction.getBookingId());
+            carBooking.setPendingPayment(carBooking.getPendingPayment() - transaction.getAmount());
+            if(carBooking.getAdvancePayment() == 0.0) {
+                carBooking.setAdvancePayment(transaction.getAmount());
+                // Update car status
+            }
+
+            carBooking.setStatus("CNF");
             carBookingDao.save(carBooking);
-
-            // Redirect to the booking report page upon successful save
-            return new ModelAndView("redirect:/bookingReport");
-
-        } catch (Exception e) {
-            // Redirect to the error page in case of unexpected issues
-            ModelAndView mv = new ModelAndView("carBookingErrorPage");
-            mv.addObject("errorMessage", "Failed to save the booking. Please try again.");
-            return mv;
         }
-    }
-    
-    
 
+        return new ModelAndView("redirect:/bookingPayments");
+    }
+
+    @GetMapping("/bookingPayments")
+    public ModelAndView showBookingPayments() {
+        ModelAndView mv = new ModelAndView("bookingPayments");
+        List<Transaction> transactions = transactionRepository.findAll();
+        mv.addObject("transactions", transactions);
+        return mv;
+    }
+
+    @GetMapping("/returnBooking/{bookingId}")
+    public ModelAndView bookingReturn(@PathVariable String bookingId) {
+        CarBooking carBooking = carBookingDao.findById(bookingId);
+        carBooking.setStatus("R");
+        carBookingDao.save(carBooking);
+
+        return new ModelAndView("redirect:/bookingReport/" + bookingId);
+    }
+
+    @GetMapping("/cancelBooking/{bookingId}")
+    public ModelAndView bookingCancel(@PathVariable String bookingId) {
+        CarBooking carBooking = carBookingDao.findById(bookingId);
+        carBooking.setStatus("C");
+        carBookingDao.save(carBooking);
+
+        return new ModelAndView("redirect:/bookingReport/" + bookingId);
+    }
 }

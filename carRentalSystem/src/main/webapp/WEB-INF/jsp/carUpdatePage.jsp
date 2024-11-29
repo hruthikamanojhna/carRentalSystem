@@ -102,7 +102,7 @@
 </head>
 <body>
     <header>
-        <h1>Rent & Drive</h1>
+        <h1>RoadTripRental</h1>
         <nav>
             <a href="${pageContext.request.contextPath}/index">Home</a>
         </nav>
@@ -133,7 +133,7 @@
         <label for="yearOfMfg">Year of Manufacturing:</label>
         <form:input path="yearOfMfg" id="yearOfMfg" placeholder="Year of manufacturing" disabled="true" />
 
-        <label for="rentRate">Enter New Rent Rate per Hour:</label>
+        <label for="rentRate">Enter New Rent Rate per Day:</label>
         <form:input path="rentRate" id="rentRate" placeholder="Rent rate per hour" />
 
         <label for="variantId">Variant Id:</label>
