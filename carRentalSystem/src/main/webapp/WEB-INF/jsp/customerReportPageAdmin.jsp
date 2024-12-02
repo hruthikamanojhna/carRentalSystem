@@ -11,15 +11,17 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-			background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
-            background-color: #f4f7f6;
+            background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
+            background-size: cover;
+            background-attachment: fixed;
             margin: 0;
             padding: 0;
             color: #333;
+            padding-top: 80px; /* Offset for the fixed header */
         }
         h1 {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 20px;
             color: #2c3e50;
             font-size: 2.5em;
             text-decoration: underline;
@@ -33,11 +35,11 @@
         .table-container {
             display: flex;
             justify-content: center;
-            margin-top: 30px;
+            margin-top: 20px;
             padding: 20px;
         }
         table {
-            width: 100%;
+            width: 90%;
             max-width: 1200px;
             border-collapse: collapse;
             background-color: #fff;
@@ -53,6 +55,7 @@
         th {
             background-color: #3498db;
             color: white;
+            text-transform: uppercase;
         }
         tr:nth-child(even) {
             background-color: #f9f9f9;
@@ -71,29 +74,70 @@
         a:hover {
             background-color: #3498db;
             color: white;
-            text-decoration: none;
         }
         .action-links {
             display: flex;
-            justify-content: space-around;
-            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-        .action-links a {
-            margin: 0 5px;
+        /* Header Styles */
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #333;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .btn, .logout-btn {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover, .logout-btn:hover {
+            background-color: #0056b3;
         }
         /* Responsive Design */
         @media (max-width: 768px) {
             table {
-                width: 90%;
+                width: 95%;
             }
             th, td {
                 font-size: 14px;
-                padding: 12px;
+                padding: 10px;
             }
         }
     </style>
 </head>
 <body>
+    <header>
+        <div class="header-content">
+            <div class="navbar">
+                <h1 class="logo">RoadTripRental</h1>
+                <a href="/index" class="btn" id="home-btn">Home</a>
+            </div>
+            <div class="navbar navbar-right">
+                <a href="/logout" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </header>
+
     <div>
         <h1>Customer Report</h1>
         <h2>View and Update Customer Details</h2>

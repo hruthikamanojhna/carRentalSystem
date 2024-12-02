@@ -18,7 +18,32 @@
             align-items: center;
             color: #2f3640;
         }
+		.header-content {
+			            display: flex;
+			            justify-content: space-between;
+			            align-items: center;
+			            padding: 10px 20px;
+			            background-color: #f8f9fa;
+			        }
 
+			        .logo {
+			            font-size: 1.5rem;
+			            color: #343a40;
+			            font-weight: bold;
+			        }
+
+			        .btn {
+			            text-decoration: none;
+			            color: white;
+			            background-color: #007bff;
+			            padding: 5px 10px;
+			            border-radius: 5px;
+			            transition: background-color 0.3s ease;
+			        }
+
+			        .btn:hover {
+			            background-color: #0056b3;
+			        }
         header {
             width: 100%;
             padding: 15px;
@@ -101,12 +126,51 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>RoadTripRental</h1>
-        <nav>
-            <a href="${pageContext.request.contextPath}/index">Home</a>
-        </nav>
-    </header>
+	<header>
+	        <style>
+	            .header-content {
+	                display: flex;
+	                justify-content: space-between;
+	                align-items: center;
+	                padding: 15px 30px;
+	                background-color: #333;
+	                color: white;
+	            }
+
+	            .navbar {
+	                display: flex;
+	                align-items: center;
+	                gap: 15px;
+	            }
+
+	            .logo {
+	                font-size: 24px;
+	                font-weight: bold;
+	            }
+
+	            .btn, .logout-btn {
+	                text-decoration: none;
+	                padding: 10px 15px;
+	                background-color: #007BFF;
+	                color: white;
+	                border-radius: 5px;
+	                transition: background-color 0.3s ease;
+	            }
+
+	            .btn:hover, .logout-btn:hover {
+	                background-color: #0056b3;
+	            }
+	        </style>
+	        <div class="header-content">
+	            <div class="navbar">
+	                <h1 class="logo">RoadTripRental</h1>
+	                <a href="/index" class="btn" id="home-btn">Home</a>
+	            </div>
+	            <div class="navbar navbar-right">
+	                <a href="/logout" class="logout-btn">Logout</a>
+	            </div>
+	        </div>
+	    </header>
 
     <h2>Update Car</h2>
 

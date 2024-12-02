@@ -3,182 +3,259 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+	    <meta charset="UTF-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <title>Customer Entry Page</title>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customer Entry Page</title>
+	    <style>
+	        body {
+	            font-family: Arial, sans-serif;
+	            background: linear-gradient(145deg, #74ebd5, #9face6);
+	            color: #333;
+	            margin: 0;
+	            padding: 0;
+	        }
 
-    <!-- CSS for styling -->
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-			background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 0;
-        }
+	        /* Header styling */
+	        .header {
+	            display: flex;
+	            justify-content: space-between;
+	            align-items: center;
+	            padding: 10px 20px;
+	            background-color: #007bff;
+	            color: white;
+	            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	        }
 
-        .container {
-            width: 60%; /* Further reduced container width */
-            max-width: 380px; /* Reduced max-width */
-            margin: 30px auto; /* Reduced top margin */
-            background-color: #ffffff;
-            padding: 15px; /* Reduced padding */
-            border-radius: 8px;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Smaller shadow */
-        }
+	        .header .logo {
+	            font-size: 1.5em;
+	            font-weight: bold;
+	        }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            font-size: 1.8em; /* Reduced font size */
-            margin-bottom: 10px; /* Reduced space below title */
-        }
+	        .header .header-links {
+	            display: flex;
+	            gap: 10px;
+	        }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 8px; /* Reduced gap between elements */
-        }
+	        .header .header-links a {
+	            text-decoration: none;
+	            font-size: 0.9em;
+	            padding: 8px 12px;
+	            background-color: #0056b3;
+	            color: white;
+	            border-radius: 5px;
+	            transition: background-color 0.3s ease;
+	        }
 
-        label {
-            font-size: 0.9em; /* Smaller font size for labels */
-            color: #333;
-        }
+	        .header .header-links a:hover {
+	            background-color: #003f87;
+	        }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="date"] {
-            padding: 6px; /* Reduced padding */
-            font-size: 0.85em; /* Smaller font size for inputs */
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            width: 100%;
-            margin-top: 4px; /* Reduced margin */
-            background-color: #f9f9f9;
-        }
+	        /* Main container styling */
+	        .container {
+	            max-width: 400px;
+	            margin: 40px auto;
+	            background-color: #ffffff;
+	            padding: 20px;
+	            border-radius: 10px;
+	            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	        }
 
-        input[type="text"]:disabled,
-        input[type="email"]:disabled {
-            background-color: #e9ecef;
-        }
+	        h1 {
+	            text-align: center;
+	            color: #2c3e50;
+	            margin-bottom: 20px;
+	        }
 
-        .button-container {
-            display: flex;
-            justify-content: space-between; /* Buttons side by side */
-            gap: 8px; /* Reduced gap between buttons */
-        }
+	        form {
+	            display: flex;
+	            flex-direction: column;
+	            gap: 12px;
+	        }
 
-        button {
-            background-color: #007bff;
-            color: white;
-            font-size: 0.9em; /* Smaller font size for buttons */
-            padding: 6px 14px; /* Reduced padding */
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            width: 48%; /* Buttons adjusted to fit side by side */
-        }
+	        label {
+	            font-size: 0.9em;
+	            color: #555;
+	            margin-bottom: 5px;
+	        }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+	        input[type="text"],
+	        input[type="email"],
+	        input[type="date"] {
+	            width: 100%;
+	            padding: 8px;
+	            font-size: 0.9em;
+	            border: 1px solid #ccc;
+	            border-radius: 5px;
+	        }
 
-        button[type="reset"] {
-            background-color: #6c757d;
-        }
+	        input:disabled {
+	            background-color: #e9ecef;
+	        }
 
-        button[type="reset"]:hover {
-            background-color: #5a6268;
-        }
+	        .button-container {
+	            display: flex;
+	            justify-content: space-between;
+	            gap: 10px;
+	        }
 
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px; /* Reduced gap between input fields */
-        }
+	        button {
+	            padding: 8px 16px;
+	            font-size: 0.9em;
+	            color: white;
+	            border: none;
+	            border-radius: 5px;
+	            cursor: pointer;
+	            transition: background-color 0.3s ease;
+	        }
 
-        @media (max-width: 768px) {
-            .container {
-                width: 90%; /* Container becomes wider on smaller screens */
-                padding: 12px; /* Reduced padding for smaller screens */
-            }
+	        button[type="submit"] {
+	            background-color: #28a745;
+	        }
 
-            h1 {
-                font-size: 1.6em; /* Slightly smaller title on mobile */
-            }
+	        button[type="submit"]:hover {
+	            background-color: #218838;
+	        }
 
-            button {
-                width: 100%; /* Buttons take full width on smaller screens */
-            }
+	        button[type="reset"] {
+	            background-color: #dc3545;
+	        }
 
-            .button-container {
-                flex-direction: column; /* Stack buttons vertically on small screens */
-                gap: 10px;
-            }
-        }
-    </style>
-</head>
+	        button[type="reset"]:hover {
+	            background-color: #c82333;
+	        }
 
-<body>
+	        @media (max-width: 768px) {
+	            .container {
+	                margin: 20px;
+	                padding: 15px;
+	            }
 
-    <div class="container">
-        <h1><u>Customer Entry Page</u></h1>
-        <form:form action="/customerAdd" method="post" modelAttribute="customerRecord">
+	            h1 {
+	                font-size: 1.4em;
+	            }
 
-            <form:hidden path="username" />
-            <form:hidden path="email" />
+	            .header {
+	                flex-direction: column;
+	                text-align: center;
+	                gap: 10px;
+	            }
 
-            <div class="form-group">
-                <label for="username">User Name:</label>
-                <form:input path="username" disabled="true" />
-            </div>
+	            .header .header-links {
+	                flex-wrap: wrap;
+	                gap: 10px;
+	            }
 
-            <div class="form-group">
-                <label for="email">Email:</label>
-                <form:input path="email" disabled="true" />
-            </div>
+	            .button-container {
+	                flex-direction: column;
+	                gap: 12px;
+	            }
+	        }
+	    </style>
+	</head>
+	<body>
+	    <!-- Header Section -->
+		<header>
+		        <style>
+		            .header-content {
+		                display: flex;
+		                justify-content: space-between;
+		                align-items: center;
+		                padding: 15px 30px;
+		                background-color: #333;
+		                color: white;
+		            }
 
-            <div class="form-group">
-                <label for="firstName">Enter First Name:</label>
-                <form:input path="firstName" />
-            </div>
+		            .navbar {
+		                display: flex;
+		                align-items: center;
+		                gap: 15px;
+		            }
 
-            <div class="form-group">
-                <label for="lastName">Enter Last Name:</label>
-                <form:input path="lastName" />
-            </div>
+		            .logo {
+		                font-size: 24px;
+		                font-weight: bold;
+		            }
 
-            <div class="form-group">
-                <label for="address">Enter Address:</label>
-                <form:input path="address" />
-            </div>
+		            .btn, .logout-btn {
+		                text-decoration: none;
+		                padding: 10px 15px;
+		                background-color: #007BFF;
+		                color: white;
+		                border-radius: 5px;
+		                transition: background-color 0.3s ease;
+		            }
 
-            <div class="form-group">
-                <label for="mobile">Enter Mobile Number:</label>
-                <form:input path="mobile" />
-            </div>
+		            .btn:hover, .logout-btn:hover {
+		                background-color: #0056b3;
+		            }
+		        </style>
+		        <div class="header-content">
+		            <div class="navbar">
+		                <h1 class="logo">RoadTripRental</h1>
+		                <a href="/index" class="btn" id="home-btn">Home</a>
+		            </div>
+		            <div class="navbar navbar-right">
+		                <a href="/logout" class="logout-btn">Logout</a>
+		            </div>
+		        </div>
+		    </header>
 
-            <div class="form-group">
-                <label for="license">Enter License Number:</label>
-                <form:input path="license" />
-            </div>
+	    <!-- Main Content -->
+	    <div class="container">
+	        <h1>Customer Entry Page</h1>
+	        <form:form action="/customerAdd" method="post" modelAttribute="customerRecord">
 
-            <div class="form-group">
-                <label for="expiryDate">Enter License Expiry Date:</label>
-                <form:input type="date" placeholder="dd-mm-yy" path="expiryDate" />
-            </div>
+	            <form:hidden path="username" />
+	            <form:hidden path="email" />
+	            <form:hidden path="status" />
 
-            <div class="button-container">
-                <button type="submit">Submit</button>
-                <button type="reset">Reset</button>
-            </div>
+	            <div>
+	                <label for="username">User Name:</label>
+	                <form:input path="username" disabled="true" />
+	            </div>
 
-        </form:form>
-    </div>
+	            <div>
+	                <label for="email">Email:</label>
+	                <form:input path="email" disabled="true" />
+	            </div>
 
-</body>
+	            <div>
+	                <label for="firstName">Enter First Name:</label>
+	                <form:input path="firstName" />
+	            </div>
 
+	            <div>
+	                <label for="lastName">Enter Last Name:</label>
+	                <form:input path="lastName" />
+	            </div>
+
+	            <div>
+	                <label for="address">Enter Address:</label>
+	                <form:input path="address" />
+	            </div>
+
+	            <div>
+	                <label for="mobile">Enter Mobile Number:</label>
+	                <form:input path="mobile" />
+	            </div>
+
+	            <div>
+	                <label for="license">Enter License Number:</label>
+	                <form:input path="license" />
+	            </div>
+
+	            <div>
+	                <label for="expiryDate">Enter License Expiry Date:</label>
+	                <form:input type="date" placeholder="dd-mm-yy" path="expiryDate" />
+	            </div>
+
+	            <div class="button-container">
+	                <button type="submit">Submit</button>
+	                <button type="reset">Reset</button>
+	            </div>
+	        </form:form>
+	    </div>
+	</body>
 </html>

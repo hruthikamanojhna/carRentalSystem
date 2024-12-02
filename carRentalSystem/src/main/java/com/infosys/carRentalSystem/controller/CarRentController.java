@@ -265,7 +265,10 @@ public class CarRentController {
         String message = "Sorry Dear Customer, you need to complete your last booking and payment procedures.";
 
         // Prepare the ModelAndView object
+       
         ModelAndView mv = new ModelAndView("carBookingErrorPage");
+        mv.addObject("linkText", "Show Bookings");
+        mv.addObject("redirectLink", "/bookingReport");
         mv.addObject("errorMessage", message);
 
         return mv;
@@ -278,6 +281,8 @@ public class CarRentController {
 
         // Prepare the ModelAndView object
         ModelAndView mv = new ModelAndView("carBookingErrorPage");
+        mv.addObject("linkText", "Update License");
+        mv.addObject("redirectLink", "/singleCustomerReport");
         mv.addObject("errorMessage", message);
 
         return mv;
@@ -285,6 +290,17 @@ public class CarRentController {
 
     @GetMapping("/newBooking/{carNumber}")
     public ModelAndView showNewBookingPage(@PathVariable String carNumber) {
+        // Validate status of the customer before proceeding for booking
+        String username = carUserService.getUserName();
+
+        boolean status = customerDao.getCustomerStatusByUsername(username);
+        if(!status) throw new CustomerStatusException();
+
+        String licenceExpiryDate = customerDao.getLicenceExpiryDate(username);
+        if(!custService.validateCustomerLicenceDate(licenceExpiryDate))
+            throw new CustomerLicenceException();
+
+        // Booking
         CarBooking carBooking = new CarBooking();
         carBooking.setBookingId(carBookingDao.generateBookingId());
         carBooking.setCarNumber(carNumber);
@@ -306,9 +322,11 @@ public class CarRentController {
         carBooking.setStatus("P");
         carBooking.setAdvancePayment(0.0);
         carBooking.setPendingPayment(carBooking.getTotalPayment());
+
         Customer customer = customerDao.findById(carUserService.getUserName());
         carBooking.setLicense(customer.getLicense());
         carBooking.setVariantId(carDao.findById(carBooking.getCarNumber()).getVariantId());
+
         carBookingDao.save(carBooking);
         return new ModelAndView("redirect:/makePayment/" + carBooking.getBookingId());
     }
@@ -333,16 +351,20 @@ public class CarRentController {
     public ModelAndView showBookingDetails(@PathVariable String bookingId) {
         String role = carUserService.getRole();
         CarBooking carBooking = carBookingDao.findById(bookingId);
+
         String page = role.equalsIgnoreCase("ADMIN")
                 ? "bookingDetailAdmin" : "bookingDetailCustomer";
         ModelAndView mv = new ModelAndView(page);
+
         CarVariant variant = carVariantDao.findById(carBooking.getVariantId());
         Car car = carDao.findById(carBooking.getCarNumber());
         List<Transaction> transactions = transactionDao.findAllByBookingId(bookingId);
+
         mv.addObject("booking", carBooking);
         mv.addObject("variant", variant);
         mv.addObject("car", car);
         mv.addObject("transactions", transactions);
+
         return mv;
     }
 
@@ -353,6 +375,7 @@ public class CarRentController {
         LocalDate end = LocalDate.parse(toDate, formatter);
         return ChronoUnit.DAYS.between(start, end);
     }
+
     @GetMapping("/makePayment/{bookingId}")
     public ModelAndView showPaymentPage(@PathVariable String bookingId) {
         Transaction transaction = new Transaction();
@@ -374,6 +397,7 @@ public class CarRentController {
     public ModelAndView makePayment(@ModelAttribute("transaction") Transaction transaction) {
         transaction.setApproved(null);
         transactionRepository.save(transaction);
+        System.out.println("after save");
         return new ModelAndView("redirect:/bookingReport/" + transaction.getBookingId());
     }
 
@@ -387,8 +411,10 @@ public class CarRentController {
             CarBooking carBooking = carBookingDao.findById(transaction.getBookingId());
             carBooking.setPendingPayment(carBooking.getPendingPayment() - transaction.getAmount());
             if(carBooking.getAdvancePayment() == 0.0) {
+                // First payment
                 carBooking.setAdvancePayment(transaction.getAmount());
-                // Update car status
+                updateCarStatus(carBooking.getCarNumber(), false);
+                updateCustomerStatus(carBooking.getUsername(), false);
             }
 
             carBooking.setStatus("CNF");
@@ -410,6 +436,10 @@ public class CarRentController {
     public ModelAndView bookingReturn(@PathVariable String bookingId) {
         CarBooking carBooking = carBookingDao.findById(bookingId);
         carBooking.setStatus("R");
+
+        updateCarStatus(carBooking.getCarNumber(), true);
+        updateCustomerStatus(carBooking.getUsername(), true);
+
         carBookingDao.save(carBooking);
 
         return new ModelAndView("redirect:/bookingReport/" + bookingId);
@@ -421,6 +451,20 @@ public class CarRentController {
         carBooking.setStatus("C");
         carBookingDao.save(carBooking);
 
+        updateCarStatus(carBooking.getCarNumber(), true);
+        updateCustomerStatus(carBooking.getUsername(), true);
+
         return new ModelAndView("redirect:/bookingReport/" + bookingId);
+    }
+    private void updateCarStatus(String carNumber, Boolean status) {
+        Car car = carDao.findById(carNumber);
+        car.setAvailable(status);
+        carDao.save(car);
+    }
+
+    private void updateCustomerStatus(String username, Boolean status) {
+        Customer customer = customerDao.findById(username);
+        customer.setStatus(status);
+        customerDao.save(customer);
     }
 }

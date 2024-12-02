@@ -73,7 +73,7 @@ body {
 </head>
 <body>
 <div align="center">
-<h1 style="font-family:ALGERIAN">Welcome To Car Rental Page</h1>
+<h1 style="font-family:LUCIDA">Welcome To RoadTripRental Admin Page</h1>
 <div class="navbar">
 <div class="dropdown">
 <button class="dropbtn">Customer

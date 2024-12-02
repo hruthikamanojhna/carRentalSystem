@@ -124,8 +124,51 @@
 
 <body>
 
-    <div class="container">
-        <h1><u>Customer Update Page</u></h1>
+	<header>
+	        <style>
+	            .header-content {
+	                display: flex;
+	                justify-content: space-between;
+	                align-items: center;
+	                padding: 15px 30px;
+	                background-color: #333;
+	                color: white;
+	            }
+
+	            .navbar {
+	                display: flex;
+	                align-items: center;
+	                gap: 15px;
+	            }
+
+	            .logo {
+	                font-size: 24px;
+	                font-weight: bold;
+	            }
+
+	            .btn, .logout-btn {
+	                text-decoration: none;
+	                padding: 10px 15px;
+	                background-color: #007BFF;
+	                color: white;
+	                border-radius: 5px;
+	                transition: background-color 0.3s ease;
+	            }
+
+	            .btn:hover, .logout-btn:hover {
+	                background-color: #0056b3;
+	            }
+	        </style>
+	        <div class="header-content">
+	            <div class="navbar">
+	                <h1 class="logo">RoadTripRental</h1>
+	                <a href="/index" class="btn" id="home-btn">Home</a>
+	            </div>
+	            <div class="navbar navbar-right">
+	                <a href="/logout" class="logout-btn">Logout</a>
+	            </div>
+	        </div>
+	    </header>
         <form:form action="/customerUpdate" method="post" modelAttribute="customerRecord">
 
             <form:hidden path="username" />

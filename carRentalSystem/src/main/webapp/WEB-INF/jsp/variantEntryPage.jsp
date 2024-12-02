@@ -10,23 +10,68 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-			background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .btn, .logout-btn {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover, .logout-btn:hover {
+            background-color: #0056b3;
         }
 
         .container {
-            background-color: #ffffff;
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 30px;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             max-width: 400px;
             width: 100%;
             text-align: center;
+            margin-top: 100px;
         }
 
         h1 {
@@ -83,28 +128,40 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Car Variant Entry Page</h1>
-    <form:form action="/variantAdd" method="post" modelAttribute="variantRecord">
-        <form:hidden path="variantId"/>
-        
-        <label for="variantId">Variant ID:</label>
-        <form:input path="variantId" id="variantId" disabled="true"/>
-        
-        <label for="variantName">Enter Variant Name:</label>
-        <form:input path="variantName" id="variantName" required="true"/>
-
-        <label for="numberOfSeat">Enter Number of Seats:</label>
-        <form:input path="numberOfSeat" id="numberOfSeat" required="true"/>
-
-        <label for="fuel">Enter Type of Fuel:</label>
-        <form:input path="fuel" id="fuel" required="true"/>
-
-        <div style="display: flex; justify-content: space-between;">
-            <button type="submit">Submit</button>
-            <button type="reset">Reset</button>
+    <header>
+        <div class="header-content">
+            <div class="navbar">
+                <h1 class="logo">RoadTripRental</h1>
+                <a href="/index" class="btn" id="home-btn">Home</a>
+            </div>
+            <div class="navbar navbar-right">
+                <a href="/logout" class="logout-btn">Logout</a>
+            </div>
         </div>
-    </form:form>
-</div>
+    </header>
+
+    <div class="container">
+        <h1>Car Variant Entry Page</h1>
+        <form:form action="/variantAdd" method="post" modelAttribute="variantRecord">
+            <form:hidden path="variantId"/>
+
+            <label for="variantId">Variant ID:</label>
+            <form:input path="variantId" id="variantId" disabled="true"/>
+
+            <label for="variantName">Enter Variant Name:</label>
+            <form:input path="variantName" id="variantName" required="true"/>
+
+            <label for="numberOfSeat">Enter Number of Seats:</label>
+            <form:input path="numberOfSeat" id="numberOfSeat" required="true"/>
+
+            <label for="fuel">Enter Type of Fuel:</label>
+            <form:input path="fuel" id="fuel" required="true"/>
+
+            <div style="display: flex; justify-content: space-between;">
+                <button type="submit">Submit</button>
+                <button type="reset">Reset</button>
+            </div>
+        </form:form>
+    </div>
 </body>
 </html>

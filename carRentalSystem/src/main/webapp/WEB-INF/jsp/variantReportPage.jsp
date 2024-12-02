@@ -10,27 +10,71 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-			background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background-image: url('https://wallpapercave.com/wp/wp9829791.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
             margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        header {
+            width: 100%;
+            position: fixed;
+            top: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .btn, .logout-btn {
+            text-decoration: none;
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover, .logout-btn:hover {
+            background-color: #0056b3;
         }
 
         .container {
-            background-color: #ffffff;
-            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
             max-width: 800px;
-            width: 100%;
-            text-align: center;
+            width: 90%;
+            margin-top: 100px;
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 28px;
             color: #333;
             margin-bottom: 20px;
             text-decoration: underline;
@@ -40,6 +84,7 @@
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            font-size: 16px;
         }
 
         table, th, td {
@@ -49,37 +94,34 @@
         th, td {
             padding: 12px;
             text-align: center;
-            font-size: 16px;
-            color: #333;
         }
 
         th {
             background-color: #007BFF;
             color: white;
+            font-weight: bold;
         }
 
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
 
-        a, .button {
-            color: #007BFF;
-            text-decoration: none;
-            font-weight: bold;
+        tr:hover {
+            background-color: #f1f1f1;
         }
 
-        a:hover, .button:hover {
-            color: #0056b3;
+        .button, .action-link {
+            display: inline-block;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
 
         .button {
-            display: inline-block;
             background-color: #007BFF;
             color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            text-align: center;
             margin-top: 20px;
         }
 
@@ -89,8 +131,6 @@
 
         .action-link {
             color: #d9534f;
-            text-decoration: none;
-            font-weight: bold;
         }
 
         .action-link:hover {
@@ -99,27 +139,39 @@
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Car Variant Report</h1>
-    <table>
-        <tr>
-            <th>Variant ID</th>
-            <th>Variant Name</th>
-            <th>Number of Seats</th>
-            <th>Fuel Usage</th>
-            <th>Actions</th>
-        </tr>
-        <c:forEach items="${variantList}" var="variant">
+    <header>
+        <div class="header-content">
+            <div class="navbar">
+                <h1 class="logo">RoadTripRental</h1>
+                <a href="/index" class="btn" id="home-btn">Home</a>
+            </div>
+            <div class="navbar navbar-right">
+                <a href="/logout" class="logout-btn">Logout</a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <h1>Car Variant Report</h1>
+        <table>
             <tr>
-                <td>${variant.variantId}</td>
-                <td>${variant.variantName}</td>
-                <td>${variant.numberOfSeat}</td>
-                <td>${variant.fuel}</td>
-                <td><a href="/variantDeletion/${variant.variantId}" class="action-link">Delete</a></td>
+                <th>Variant ID</th>
+                <th>Variant Name</th>
+                <th>Number of Seats</th>
+                <th>Fuel Usage</th>
+                <th>Actions</th>
             </tr>
-        </c:forEach>
-    </table>
-    <a href="/index" class="button">Return to Home</a>
-</div>
+            <c:forEach items="${variantList}" var="variant">
+                <tr>
+                    <td>${variant.variantId}</td>
+                    <td>${variant.variantName}</td>
+                    <td>${variant.numberOfSeat}</td>
+                    <td>${variant.fuel}</td>
+                    <td><a href="/variantDeletion/${variant.variantId}" class="action-link">Delete</a></td>
+                </tr>
+            </c:forEach>
+        </table>
+        <a href="/index" class="button">Return to Home</a>
+    </div>
 </body>
 </html>
